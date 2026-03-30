@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head', {title: "Tokens" }) %>
+    <body class="">
+        <%- include('partials/header',{title:"Tokens"}) %>
+            <main id="home_main" class="container">
+                <div class="row">
+                    <div class="col-12 col-lg-10 mx-auto mt-5">
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <form action="/admin/searchUser" method="GET" class="search-form">
+                                    <label for="dni" class="form-label">Buscar Usuario por DNI:</label>
+                                    <input 
+                                        type="number" 
+                                        name="dni" 
+                                        class="form-control" 
+                                        id="dni" 
+                                        placeholder="🔍"
+                                        required
+                                        onkeypress="if(event.key === 'Enter') this.form.submit();"
+                                    >
+                                    </form>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleFormControlInput2" class="form-label">
+                                        <span class="<%= user ? 'text-dark' : 'text-danger' %>">
+                                            <%= user ? 'Usuario:' : 'Usuario no encontrado' %>
+                                        </span>
+                                    </label>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">DNI</th>
+                                                <th scope="col">Nombre</th>
+                                                <th scope="col">Apellido</th>
+                                                <th scope="col">Tokens</th>
+                                                <th scope="col">Añadir/Quitar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>                                                  
+                                            <tr>
+                                                <th scope="row">
+                                                    -
+                                                </th>
+                                                <td>
+                                                    <%= (user)?addPuntos(user.dni):("-") %>
+                                                </td>
+                                                <td>
+                                                    <%= (user)?addPuntos(user.name):("-") %>
+                                                </td>
+                                                <td>
+                                                    <%= (user)?addPuntos(user.surname):("-") %>
+                                                </td>
+                                                <td>
+                                                    <b>$BEX: </b><%= (user)?addPuntos(user.tokens):("-") %>
+                                                </td>
+                                                <td>
+                                                    <% if (user) { %>
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                        </button>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                                                        <b>$BEX: </b><%= user ? addPuntos(user.tokens) : "-" %>
+                                                                    </h1>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <p>Ingrese la cantidad de <b>$BEX</b> que desea <b>Añadir</b> al total:</p>
+                                                                    <form id="addForm" action="/admin/addTokens" method="POST" class="search-form">
+                                                                    <!-- DNI del usuario (oculto) -->
+                                                                    <input type="hidden" name="dni" value="<%= user ? user.dni : '' %>">
+                                                                    <!-- Cantidad de tokens a añadir -->
+                                                                    <input 
+                                                                        type="number" 
+                                                                        name="amount" 
+                                                                        class="form-control" 
+                                                                        placeholder="Cantidad de $BEX" 
+                                                                        required
+                                                                        min="1"
+                                                                    >
+                                                                    </form>
+                                                                    <!-- Botón para enviar -->
+                                                                    <button type="button" id="addButton" class="btn btn-primary">Añadir $BEX</button>
+                                                                    <p>Ingrese la cantidad de <b>$BEX</b> que desea <b>Descontar</b> al total:</p>
+                                                                    <form id="subtractForm" action="/admin/subtractTokens" method="POST" class="search-form" data-tokens="<%= user ? user.tokens : 0 %>">
+                                                                    <input type="hidden" name="dni" value="<%= user ? user.dni : '' %>">
+                                                                    <input type="number" name="amount" class="form-control" placeholder="Cantidad de $BEX" required min="1">
+                                                                    </form>
+
+                                                                    <button type="button" id="subtractButton" class="btn btn-danger">Descontar $BEX</button>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                    <% } else { %>
+                                                        <button type="button" class="btn btn-outline-secondary"><i class="fa-solid fa-pen-to-square"></i></button>
+                                                    <% } %>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const form = document.getElementById('addForm');
+                const button = document.getElementById('addButton');
+
+                button.addEventListener('click', () => {
+                const amountInput = form.querySelector('input[name="amount"]');
+                const amount = parseFloat(amountInput.value);
+
+                if (isNaN(amount) || amount <= 0) {
+                    alert('Ingrese un número válido de $BEX');
+                    amountInput.focus();
+                    return;
+                }
+
+                // Envía el formulario
+                form.submit();
+                });
+            });
+            </script>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                const form = document.getElementById('subtractForm');
+                const button = document.getElementById('subtractButton');
+                const userTokens = parseFloat(form.dataset.tokens); // <--- se toma del data-attribute
+
+                button.addEventListener('click', () => {
+                    const amountInput = form.querySelector('input[name="amount"]');
+                    const amount = parseFloat(amountInput.value);
+
+                    if (isNaN(amount) || amount <= 0) {
+                    alert('Ingrese un número válido de $BEX');
+                    amountInput.focus();
+                    return;
+                    }
+
+                    if (amount > userTokens) {
+                    alert(`No puede descontar más de ${userTokens} $BEX`);
+                    amountInput.focus();
+                    return;
+                    }
+
+                    form.submit();
+                });
+                });
+                </script>
+            <%- include('partials/footer') %>
+            <%- include('partials/scripts') %>
+    </body>
+    
+</html>

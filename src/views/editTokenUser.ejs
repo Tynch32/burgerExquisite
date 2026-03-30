@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head', {title: "Tokens" }) %>
+    <body class="">
+        <%- include('partials/header') %>
+            <main id="home_main" class="container">
+                <div class="row">
+                    <div class="col-12 col-lg-10 mx-auto mt-5">
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <form action="/admin/searchUser" method="GET" class="search-form">
+                                    <label for="dni" class="form-label">Buscar Usuario por DNI:</label>
+                                    <input 
+                                        type="number" 
+                                        name="dni" 
+                                        class="form-control" 
+                                        id="dni" 
+                                        placeholder="🔍"
+                                        required
+                                        onkeypress="if(event.key === 'Enter') this.form.submit();"
+                                    >
+                                    </form>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleFormControlInput2" class="form-label">Usuario:</label>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">DNI</th>
+                                                <th scope="col">Nombre</th>
+                                                <th scope="col">Apellido</th>
+                                                <th scope="col">Tokens</th>
+                                                <th scope="col">Añadir/Quitar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>                                                  
+                                            <tr>
+                                                <th scope="row">
+                                                    -
+                                                </th>
+                                                <td>
+                                                    -
+                                                </td>
+                                                <td>
+                                                   -
+                                                </td>
+                                                <td>
+                                                    -
+                                                </td>
+                                                <td>
+                                                    <b>$BEX: </b>-
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-outline-secondary"><i class="fa-solid fa-pen-to-square"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <%- include('partials/footer') %>
+            <%- include('partials/scripts') %>
+    </body>
+
+</html>
