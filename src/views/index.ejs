@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+  <%-include('partials/head') %>
+  <body>
+    <%-include('partials/header',{title}) %>
+    <main>
+        <div class="d-flex justify-content-center">
+          <div class="card col-lg-11 col-12 main_container">
+            <div class="navbar_container">
+              <div>
+                <form class="d-flex navbar_searchbar" role="search">
+                  <div class="menu_desplegable2">
+                    <a class="btn btn-outline-secondary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+                      aria-controls="offcanvasExample">
+                      <i class="fa-solid fa-bars"></i>
+                    </a>
+
+                    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
+                      aria-labelledby="offcanvasExampleLabel">
+                      <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasExampleLabel">BEX</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                      </div>
+                      <div class="offcanvas-body">
+                        <div>
+                          Suma tokens BEX y canjealos por comida y productos.
+                        </div>
+                        <div>
+                          <b>
+                          Recompensas BEXs:
+                          </b>
+                        </div>
+              <div>
+                <div class="card item_container">
+                  <div class="card-body">
+      <span class="item_sinStock">Sin Stock</span>
+      <h4 class="card-title item_title">Hamburguesa</h4>
+      <p class="card-text item_description">hamburguesa con queso descripcion del producto</p>
+      <div class="item_price_container">
+        <p class="item_price2">BEX 100</p>
+      </div>
+    </div>
+                </div>
+                <br>
+    <div class="card item_container">
+      <div class="card-body">
+      <span class="item_sinStock">Sin Stock</span>
+      <h4 class="card-title item_title">Papas Fritas</h4>
+      <p class="card-text item_description">hamburguesa con queso descripcion del producto</p>
+      <div class="item_price_container">
+        <p class="item_price2">BEX 100</p>
+      </div>
+    </div>
+    </div>
+    <br>
+    <div class="card item_container">
+      <div class="card-body">
+      <span class="item_sinStock">Sin Stock</span>
+      <h4 class="card-title item_title">Descuento del 50%</h4>
+      <p class="card-text item_description">Canjea por un descuento del 50% en tu proxima compra</p>
+      <div class="item_price_container">
+        <p class="item_price2">BEX 100</p>
+      </div>
+    </div>
+    </div>
+</div>
+                      </div>
+                    </div>
+                  </div>
+                  <input id="searchInput" class="form-control" type="search"
+                    placeholder="&#128269; Buscar productos por nombre" aria-label="Search">
+                </form>
+              </div>
+              <div class="categories_container">
+                <% categories.forEach((category,index)=> { %>
+                  <div class="category" data-id="<%= category.name %>">
+                    <%-include('partials/category', { category,index }) %>
+                  </div>
+                  <% }); %>
+              </div>
+            </div>
+            <div id="content">
+              <% categories.forEach(category=> { %>
+                <section id="<%= category.name %>">
+                  <%-include('partials/section',{category,products}) %>
+                </section>
+                <% }); %>
+            </div>
+          </div>
+        </div>
+      </main>
+    <%-include('partials/footer') %>
+    <script>
+          document.getElementById('searchInput').addEventListener('input', function (e) {
+            const searchQuery = e.target.value.toLowerCase();
+
+            // Buscamos todas las secciones dentro del contenedor de categorías
+            const sections = document.querySelectorAll('#content section');
+
+            // Buscamos todos los productos
+            const products = document.querySelectorAll('.product');
+
+            // Ajuste para el desplazamiento
+            const offset = 207; // Cambia este valor al tamaño de tu barra fija
+
+            let foundMatch = false; // Bandera para saber si encontramos algo
+
+            // Primero buscamos por categorías
+            sections.forEach(section => {
+              const categoryName = section.id.toLowerCase();
+              if (categoryName.includes(searchQuery)) {
+                const sectionPosition = section.getBoundingClientRect().top + window.pageYOffset;
+                window.scrollTo({
+                  top: sectionPosition - offset,
+                  behavior: 'smooth'
+                });
+                foundMatch = true;
+              }
+            });
+
+            // Si no encontramos coincidencias por categoría, buscamos en los productos
+            if (!foundMatch) {
+              for (const product of products) {
+                const productName = product.getAttribute('data-product-name').toLowerCase();
+                if (productName.includes(searchQuery)) {
+                  const productPosition = product.getBoundingClientRect().top + window.pageYOffset;
+                  window.scrollTo({
+                    top: productPosition - offset,
+                    behavior: 'smooth'
+                  });
+                  break; // 🚨 Detiene el bucle en el primer resultado encontrado
+                }
+              }
+            }
+          });
+
+        </script>
+        <script>
+          // Seleccionamos todos los elementos de categoría dentro del contenedor
+          const categories = document.querySelectorAll('.categories_container .category');
+
+          // Definimos el offset (ajuste de desplazamiento para evitar que se tape la sección)
+          const offset = 207; // Ajusta este valor según la altura de tu contenedor
+
+          // Recorremos cada categoría y le añadimos el evento click
+          categories.forEach(category => {
+            category.addEventListener('click', function () {
+              // Obtenemos el id de la categoría desde el atributo data-id
+              const categoryId = category.getAttribute('data-id');
+
+              // Buscamos la sección correspondiente por id
+              const targetSection = document.getElementById(categoryId);
+
+              // Si existe la sección, desplazamos la página hacia esa sección
+              if (targetSection) {
+                const sectionPosition = targetSection.getBoundingClientRect().top + window.pageYOffset;
+
+                // Desplazamos la página manualmente ajustando con el offset
+                window.scrollTo({
+                  top: sectionPosition - offset,
+                  behavior: 'smooth'
+                });
+              }
+            });
+          });
+        </script>
+  </body>
+
+</html>

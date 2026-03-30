@@ -1,0 +1,30 @@
+[
+    {
+        "id":1,
+        "name":"Entradas"
+    },
+    {
+        "id":2,
+        "name":"Principales"
+    },
+    {
+        "id":3,
+        "name":"Combos"
+    },
+    {
+        "id":4,
+        "name":"Adicionales"
+    },
+    {
+        "id":5,
+        "name":"Bebidas"
+    },
+    {
+        "id":6,
+        "name":"Postres"
+    },
+    {
+        "id":7,
+        "name":"Extras"
+    }
+]

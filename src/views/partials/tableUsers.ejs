@@ -1,0 +1,46 @@
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">DNI</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Email</th>
+                <th scope="col">Rol</th>
+                <th scope="col">Fecha de Registro</th>
+                <th scope="col">Tokens</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach((user,index)=> { %>                                                     
+                <tr>
+                    <th scope="row">
+                        <%= index + 1 %>
+                    </th>
+                    <td>
+                        <%= addPuntos(user.dni) %>
+                    </td>
+                    <td>
+                        <%= user.name %>
+                    </td>
+                    <td>
+                        <%= user.surname %>
+                    </td>
+                    <td><%= user.email  %></td>
+                    <td id="table_user_role">
+                        <b><%= user.role === 1 ? "Admin" : "User" %></b>
+                    </td>
+                    <td>
+                        <%= moment(user.created_at).format('DD/MM/YYYY')%>
+                    </td>
+                    <td>
+                        <b>$BEX: </b><%= addPuntos(user.tokens) %>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+      
+    </table>
+    <script src="/js/buttonChangeRol.js"></script>
+</div>

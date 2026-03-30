@@ -1,0 +1,15 @@
+<div id="category_<%=category.name%>" class="categoria_1">
+  <h3 class="categoria_name">
+    <%=category.name%>
+  </h3>
+  <div class="subcategoria_items">
+    <% products.forEach(product=> { %>
+      <% if(product.category == category.name){ %>
+        <!-- Incluimos el producto con un data-product-name para facilitar la búsqueda -->
+        <div class="product" data-product-name="<%= product.name %>">
+          <%- include('item', { item:product }) %>
+        </div>
+      <% } %>
+    <% }) %>
+  </div>
+</div>

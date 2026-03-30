@@ -1,0 +1,142 @@
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Categoría</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Decuento</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% products.forEach((product,index)=> { %>
+                <tr>
+                    <th scope="row">
+                        <%= index + 1 %>
+                    </th>
+                    <td>
+                        <%= product.name %>
+                    </td>
+                    <td>
+                        <%= product.product_category.name || 'Sin especificar' %>
+                    </td>
+                    <td class="admin_tableProduct_price">
+                        $ <%= addPuntos(Math.floor(product.price)) %>
+                    </td>
+                    <td>
+                        <%if(product.discount>0){%>
+                            <b><%=product.discount%> %</b>
+                        <%}else{%>
+                            <%=product.discount%> %
+                        <%}%>
+                    </td>
+                    <td>
+                        <div class="d-flex gap-1">
+
+                            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal"
+                                data-bs-target="#detailProduct<%=product.id%>">
+                                <i class="fas fa-eye"></i>
+                            </button>
+
+                            <div class="modal fade" id="detailProduct<%=product.id%>" tabindex="-1"
+                                aria-labelledby="detailProduct<%=product.id%>Label" aria-hidden="true">
+                                <div class="modal-dialog modal-lg  modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-name" id="detailProduct<%=product.id%>Label">
+                                                <%= product.name %>
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="card mb-3">
+                                                <div class="row g-0">
+                                                    <div class="col-md-6">
+                                                        <img src="/img/products/<%= product.product_image.length>0 ? product.product_image[0].file :"default-image.png" %>"
+                                                            class="img-fluid" alt="...">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="card-body">
+                                                            <h5 class="card-name">
+                                                                <div>
+                                                                    Precio Original:
+                                                                </div>
+                                                            </h5>
+                                                                <div class="productCard_finalPrice" id="admin_tableProduct_price">
+                                                                    <% if (product.discount) { %>
+                                                                        <div>
+                                                                            Antes $<%=addPuntos( Math.floor(product.price)) %>
+                                                                        </div>
+                                                                    <% } %>
+                                                                </div>
+                                                                <div class="d-flex gap-1">
+                                                                    <div class="productCard_finalPrice">
+                                                                        $<%= addPuntos(Math.floor((product.price - (product.price * product.discount / 100)))) %>
+                                                                    </div>
+                                                                    <% if (product.discount) { %>
+                                                                        <div class="productCard_discount">
+                                                                            <%= product.discount %>% OFF
+                                                                        </div>
+                                                                    <% } %>
+                                                                </div>
+                                                                <p class="card-text">
+                                                                    Descripción:<br>
+                                                                    <%=product.description%>
+                                                                </p>
+                                                                <p class="card-text">
+                                                                    Categoría:<br>
+                                                                <b><%=product.product_category.name%></b>
+                                                                </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cerrar</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="btn btn-sm btn-outline-dark" href="/products/edit/<%= product.id %>"><i
+                                    class="fas fa-edit"></i></a>
+
+                            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal"
+                                data-bs-target="#removeProduct<%= product.id %>">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                            <div class="modal fade" id="removeProduct<%= product.id %>" tabindex="-1" aria-labelledby="removeProduct<%= product.id %>Label"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-name fs-5" id="removeProduct<%= product.id %>Label">ADVERTENCIA</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Estás seguro que querés eliminar el producto <b><%= product.name %></b></p> 
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cancelar</button>
+                                                <form action="/products/remove/<%= product.id %>?_method=DELETE" method="POST">
+                                                    <button type="submit" class="btn btn-danger">Eliminalo</button>
+                                                </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <% }) %>
+        </tbody>
+
+    </table>
+</div>

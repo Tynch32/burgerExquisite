@@ -1,0 +1,106 @@
+.header_principal{
+    display: grid;
+    grid-template-columns: auto 1fr auto auto auto;
+    gap: 20px;
+    position: relative;
+    padding: 30px 50px;
+    background-color: #f4f4f4e6;
+    justify-content: space-around;
+    align-items: center;
+}
+.header_logo a{
+    display: none;
+}
+.header_logo img{
+    height: 120px;
+    width: 120px;
+    object-fit: contain;
+    filter: drop-shadow(5px 5px 5px #b4b4b4);
+    margin-right: 20px;
+}
+.header_logo_img_wrapper{
+    max-height: 60px;
+}
+.header_logo_img_wrapper img{
+    border-radius: 50%;
+}
+.header_logo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.header_socialMedia{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+.header_socialMedia h3{
+    display: flex;
+    font-size: 17px;
+    padding-right: 10px;
+    font-weight: 700;
+    color: #3d3d3d;
+    height: 45px;
+    width: 190px;
+    border-left: 1px solid #3d3d3d;
+    padding-left: 10px;
+    align-items: center;
+}
+.header_principal h1{
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: .21px;
+    color: #3d3d3d;
+}
+.header_socialMedia_items{
+    display: flex;
+}
+.header_socialMedia_items a{
+    display: flex;
+    color: #ff5023;
+    background: #fff;
+    font-size: 1.4rem;
+    object-fit:unset;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+    filter: drop-shadow(5px 5px 5px #b4b4b4);
+}
+@media screen and (max-width: 992px){
+    .header_principal{
+        grid-template-columns: 1fr;
+        padding: 50px 20px 80px;
+        justify-items: center;
+        background-color: #f4f4f4b3;
+        overflow-y: hidden;
+    }
+    .header_logo_img_wrapper{
+        height: 80px;
+        width: 80px;
+        max-height: 80px;
+        min-width: 80px;
+        margin-right: 10px;
+    }
+    .header_logo_img_wrapper img{
+        height: 100%;
+        width: 100%;
+    }
+    .header_logo a{
+        display: flex;
+    }
+    .header_logo_info{
+        display: flex;
+        flex-direction: column;
+    }
+    .header_logo_info a{
+        color: #757575;
+    }
+    .header_socialMedia{
+        display: none;
+    }
+}

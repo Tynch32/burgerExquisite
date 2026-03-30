@@ -1,0 +1,29 @@
+.navbar_container{
+    position:sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: white;
+    border-radius: 13px;
+}
+.navbar_searchbar .form-control{
+    font-family: Barlow;
+    font-size: 1em;
+    width: 100%;
+    margin: 10px 20px;
+    border-radius: 13px;
+    box-shadow: 0 2px 11px #a1999980;
+    border: 1px solid #f4f4f4;
+    outline: none;
+}
+.menu_desplegable2{
+    display: flex;
+  align-items: center;
+}
+.main_container{
+    margin-top: 60px;
+    border-radius: 13px;
+    box-shadow: 0 2px 11px #a1999980;
+    background-color: #fff;
+    border: 1px solid #f4f4f4;
+    padding: 20px 50px;
+}
