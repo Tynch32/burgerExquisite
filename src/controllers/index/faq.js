@@ -1,3 +1,4 @@
 module.exports = (req,res) => {
-    return res.render('faq.ejs');
+    let title ="FAQ";
+    return res.render('faq',{title});
 }

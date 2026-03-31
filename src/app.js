@@ -1,28 +1,51 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-
-var indexRouter = require('./routes/index.routes');
-var usersRouter = require('./routes/users.routes');
-var adminRouter = require('./routes/admin.routes');
-
-var app = express();
-
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const methodOverride = require('method-override');
+const session = require('express-session');
+const favicon = require('serve-favicon');
+const cors = require('cors');
+const paginate= require('express-paginate');
+//
+const indexRouter = require('./routes/index.routes');
+const usersRouter = require('./routes/users.routes');
+const adminRouter = require('./routes/admin.routes');
+const userSessionCheck = require('./middlewares/userSessionCheck');
+const cookieCheck = require('./middlewares/cookieCheck');
+//
+const app = express();
+//
+app.use(paginate.middleware(8,50));
+app.use(cors())
+app.use(express.urlencoded({ extended: false }));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
+//
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname,'..','public')));
-
+app.use(favicon(path.join(__dirname,'..','public','img','favicon','favicon.ico')))
+app.use(methodOverride('_method'));
+app.use(session({
+  secret : "burgerExquisite",
+  resave : true,
+  saveUninitialized : true
+}));
+//
+app.use(cookieCheck);
+app.use(userSessionCheck);
+//
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/admin', adminRouter);
+//
+//
+//
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

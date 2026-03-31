@@ -104,3 +104,16 @@
         display: none;
     }
 }
+
+
+.navbar_searchbar {
+  display: flex;             /* Alinea los elementos en fila */
+  align-items: center;       /* Centra verticalmente */
+  gap: 0.3rem;               /* Espacio entre input y botón */
+}
+
+.registerLogin{
+    text-align: center;
+    padding: 0;
+    width: 100%;
+}

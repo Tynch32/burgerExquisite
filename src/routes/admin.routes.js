@@ -3,13 +3,17 @@ var express = require('express');
 var router = express.Router();
 //Controller
 const { registeredUsers, searchUser, editTokenUser, addTokens,subtractTokens } = require('../controllers/adminController');
+//Middlewares
+const adminCheck = require('../middlewares/adminCheck');
 
-router.get('/registeredUsers', registeredUsers);
-router.get('/editTokenUser', editTokenUser);
-router.get('/searchUser', searchUser);
+//Vistas Admin
+router.get('/registeredUsers', adminCheck, registeredUsers);
+router.get('/editTokenUser', adminCheck, editTokenUser);
+router.get('/searchUser', adminCheck, searchUser);
 
 // Nuevas rutas POST para tokens
-router.post('/addTokens', addTokens);        // formulario para añadir tokens
-router.post('/subtractTokens', subtractTokens); // formulario para descontar tokens
+router.post('/addTokens', adminCheck, addTokens);        // formulario para añadir tokens
+router.post('/subtractTokens', adminCheck, subtractTokens); // formulario para descontar tokens
 
+//Export
 module.exports = router;

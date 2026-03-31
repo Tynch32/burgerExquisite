@@ -9,66 +9,44 @@
             <div class="navbar_container">
               <div>
                 <form class="d-flex navbar_searchbar" role="search">
-                  <div class="menu_desplegable2">
-                    <a class="btn btn-outline-secondary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-                      aria-controls="offcanvasExample">
-                      <i class="fa-solid fa-bars"></i>
-                    </a>
-
-                    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
-                      aria-labelledby="offcanvasExampleLabel">
+                  <!-- Input de búsqueda -->
+                  <% if (locals.userLogin) { %>
+                    <% if (locals.userLogin.role===1) { %>
+                      <li id="header_button_3"><a href="/admin/registeredUsers">ADMIN <i class="fa-solid fa-screwdriver-wrench"></i></a></li>
+                    <% } %>
+                    <% if (locals.userLogin.role===0) {%>
+                      <li id="header_button_3"><a href="/admin/editTokenUser">USER <i class="fa-solid fa-screwdriver-wrench"></i></a></li>
+                      <li id="header_button_3"><a href="/admin/registeredUsers">ADMIN <i class="fa-solid fa-screwdriver-wrench"></i></a></li>
+                    <% } %>    
+                  <% } %>  
+                  <li id="header_button_5"><a href="/users/logout">salir <i class="fa-solid fa-door-open"></i></a></li>
+                  <input id="searchInput" class="form-control" type="search"
+                        placeholder="&#128269; Buscar productos por nombre" aria-label="Search">
+                  <div>
+                    <button class="btn btn-primary buttonModificar" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><i class="fa-solid fa-bars"></i></button>
+                    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
                       <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasExampleLabel">BEX</h5>
+                        <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Burguer Exquisite</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                       </div>
                       <div class="offcanvas-body">
-                        <div>
-                          Suma tokens BEX y canjealos por comida y productos.
-                        </div>
-                        <div>
-                          <b>
-                          Recompensas BEXs:
-                          </b>
-                        </div>
-              <div>
-                <div class="card item_container">
-                  <div class="card-body">
-      <span class="item_sinStock">Sin Stock</span>
-      <h4 class="card-title item_title">Hamburguesa</h4>
-      <p class="card-text item_description">hamburguesa con queso descripcion del producto</p>
-      <div class="item_price_container">
-        <p class="item_price2">BEX 100</p>
-      </div>
-    </div>
-                </div>
-                <br>
-    <div class="card item_container">
-      <div class="card-body">
-      <span class="item_sinStock">Sin Stock</span>
-      <h4 class="card-title item_title">Papas Fritas</h4>
-      <p class="card-text item_description">hamburguesa con queso descripcion del producto</p>
-      <div class="item_price_container">
-        <p class="item_price2">BEX 100</p>
-      </div>
-    </div>
-    </div>
-    <br>
-    <div class="card item_container">
-      <div class="card-body">
-      <span class="item_sinStock">Sin Stock</span>
-      <h4 class="card-title item_title">Descuento del 50%</h4>
-      <p class="card-text item_description">Canjea por un descuento del 50% en tu proxima compra</p>
-      <div class="item_price_container">
-        <p class="item_price2">BEX 100</p>
-      </div>
-    </div>
-    </div>
-</div>
+                        <nav class="navbar bg-body-tertiary">
+                          <div class="container-fluid">
+                            <a class="navbar-brand registerLogin" href="/users/login">Ya tengo Cuenta!</a>
+                          </div>
+                        </nav>
+                        <br>
+                        <nav class="navbar bg-body-tertiary">
+                          <div class="container-fluid">
+                            <a class="navbar-brand registerLogin" href="/users/register">Registrarme</a>
+                          </div>
+                        </nav>
                       </div>
                     </div>
                   </div>
-                  <input id="searchInput" class="form-control" type="search"
-                    placeholder="&#128269; Buscar productos por nombre" aria-label="Search">
+                  <div>
+
+                  </div>
                 </form>
               </div>
               <div class="categories_container">
@@ -90,51 +68,59 @@
         </div>
       </main>
     <%-include('partials/footer') %>
-    <script>
-          document.getElementById('searchInput').addEventListener('input', function (e) {
-            const searchQuery = e.target.value.toLowerCase();
+<script>
+  document.getElementById('searchInput').addEventListener('input', function (e) {
+    const searchQuery = e.target.value.toLowerCase();
 
-            // Buscamos todas las secciones dentro del contenedor de categorías
-            const sections = document.querySelectorAll('#content section');
+    // Ajuste para el desplazamiento
+    const offset = 207; // Cambia este valor al tamaño de tu barra fija
 
-            // Buscamos todos los productos
-            const products = document.querySelectorAll('.product');
+    // Si el input está vacío, subimos hasta arriba
+    if (searchQuery === '') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      return; // Salimos de la función
+    }
 
-            // Ajuste para el desplazamiento
-            const offset = 207; // Cambia este valor al tamaño de tu barra fija
+    // Buscamos todas las secciones dentro del contenedor de categorías
+    const sections = document.querySelectorAll('#content section');
 
-            let foundMatch = false; // Bandera para saber si encontramos algo
+    // Buscamos todos los productos
+    const products = document.querySelectorAll('.product');
 
-            // Primero buscamos por categorías
-            sections.forEach(section => {
-              const categoryName = section.id.toLowerCase();
-              if (categoryName.includes(searchQuery)) {
-                const sectionPosition = section.getBoundingClientRect().top + window.pageYOffset;
-                window.scrollTo({
-                  top: sectionPosition - offset,
-                  behavior: 'smooth'
-                });
-                foundMatch = true;
-              }
-            });
+    let foundMatch = false; // Bandera para saber si encontramos algo
 
-            // Si no encontramos coincidencias por categoría, buscamos en los productos
-            if (!foundMatch) {
-              for (const product of products) {
-                const productName = product.getAttribute('data-product-name').toLowerCase();
-                if (productName.includes(searchQuery)) {
-                  const productPosition = product.getBoundingClientRect().top + window.pageYOffset;
-                  window.scrollTo({
-                    top: productPosition - offset,
-                    behavior: 'smooth'
-                  });
-                  break; // 🚨 Detiene el bucle en el primer resultado encontrado
-                }
-              }
-            }
+    // Primero buscamos por categorías
+    sections.forEach(section => {
+      const categoryName = section.id.toLowerCase();
+      if (categoryName.includes(searchQuery)) {
+        const sectionPosition = section.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({
+          top: sectionPosition - offset,
+          behavior: 'smooth'
+        });
+        foundMatch = true;
+      }
+    });
+
+    // Si no encontramos coincidencias por categoría, buscamos en los productos
+    if (!foundMatch) {
+      for (const product of products) {
+        const productName = product.getAttribute('data-product-name').toLowerCase();
+        if (productName.includes(searchQuery)) {
+          const productPosition = product.getBoundingClientRect().top + window.pageYOffset;
+          window.scrollTo({
+            top: productPosition - offset,
+            behavior: 'smooth'
           });
-
-        </script>
+          break; // Detiene el bucle en el primer resultado encontrado
+        }
+      }
+    }
+  });
+</script>
         <script>
           // Seleccionamos todos los elementos de categoría dentro del contenedor
           const categories = document.querySelectorAll('.categories_container .category');
