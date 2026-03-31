@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <%-include('partials/head') %>
+  <body>
+    <%-include('partials/header',{title:"Panel Administrador"}) %>
+    <main>
+      <div class="row">
+        <div class="col-12 col-md-10 col-lg-8 col-sm-11 mx-auto mt-5">
+          <div id="form_register_box" class="card mb-3 shadow-lg">
+            <div class="card-header">
+              <b>Panel Administrador</b>
+            </div>
+        <div class="card-body">
+          <nav class="navbar bg-body-tertiary">
+          <div class="container-fluid">
+            <a class="navbar-brand registerLogin" href="/admin/registeredUsers">Usuarios Registrados</a>
+          </div>
+        </nav>
+        <br>
+        <nav class="navbar bg-body-tertiary">
+          <div class="container-fluid">
+            <a class="navbar-brand registerLogin" href="/admin/editTokenUser">Editar Tokens</a>
+          </div>
+        </nav>
+        <br>
+        </div>
+      </div>
+      </div>
+      </div>
+    </main>
+    <%-include('partials/footer') %>
+  </body>
+</html>

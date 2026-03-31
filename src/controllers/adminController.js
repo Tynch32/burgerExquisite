@@ -5,4 +5,5 @@ module.exports = {
   editTokenUser: require('./admin/editTokenUser'),
   addTokens: require ('./admin/addTokens'),
   subtractTokens: require ('./admin/subtractTokens'),
+  panelAdministrador: require('./admin/panelAdministrador'),
 };

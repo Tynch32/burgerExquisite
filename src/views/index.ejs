@@ -10,37 +10,52 @@
               <div>
                 <form class="d-flex navbar_searchbar" role="search">
                   <!-- Input de búsqueda -->
-                  <% if (locals.userLogin) { %>
-                    <% if (locals.userLogin.role===1) { %>
-                      <li id="header_button_3"><a href="/admin/registeredUsers">ADMIN <i class="fa-solid fa-screwdriver-wrench"></i></a></li>
-                    <% } %>
-                    <% if (locals.userLogin.role===0) {%>
-                      <li id="header_button_3"><a href="/admin/editTokenUser">USER <i class="fa-solid fa-screwdriver-wrench"></i></a></li>
-                      <li id="header_button_3"><a href="/admin/registeredUsers">ADMIN <i class="fa-solid fa-screwdriver-wrench"></i></a></li>
-                    <% } %>    
-                  <% } %>  
-                  <li id="header_button_5"><a href="/users/logout">salir <i class="fa-solid fa-door-open"></i></a></li>
                   <input id="searchInput" class="form-control" type="search"
                         placeholder="&#128269; Buscar productos por nombre" aria-label="Search">
                   <div>
                     <button class="btn btn-primary buttonModificar" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><i class="fa-solid fa-bars"></i></button>
-                    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+                    <div class="offcanvas offcanvas-start menuDesplegable" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
                       <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Burguer Exquisite</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                       </div>
                       <div class="offcanvas-body">
-                        <nav class="navbar bg-body-tertiary">
-                          <div class="container-fluid">
-                            <a class="navbar-brand registerLogin" href="/users/login">Ya tengo Cuenta!</a>
-                          </div>
-                        </nav>
-                        <br>
-                        <nav class="navbar bg-body-tertiary">
-                          <div class="container-fluid">
-                            <a class="navbar-brand registerLogin" href="/users/register">Registrarme</a>
-                          </div>
-                        </nav>
+                        <% if (!locals.userLogin) { %>
+                          <nav class="navbar bg-body-tertiary">
+                            <div class="container-fluid">
+                              <a class="navbar-brand registerLogin" href="/users/login">Iniciar Sesión</a>
+                            </div>
+                          </nav>
+                          <br>
+                          <nav class="navbar bg-body-tertiary">
+                            <div class="container-fluid">
+                              <a class="navbar-brand registerLogin" href="/users/register">Registrarme</a>
+                            </div>
+                          </nav>
+                        <% } %>
+                        <% if (locals.userLogin) { %>
+                          <% if (locals.userLogin.role===1) { %>
+                            <nav class="navbar bg-body-tertiary">
+                              <div class="container-fluid">
+                                <a class="navbar-brand registerLogin" href="/admin/panelAdministrador">Panel Administrador</a>
+                              </div>
+                            </nav>
+                            <br>
+                          <% }else{%>
+                            <nav class="navbar bg-body-tertiary">
+                                                          <div class="container-fluid">
+                                                            <a class="navbar-brand registerLogin" href="/users/profile">Perfil</a>
+                                                          </div>
+                                                        </nav>
+                            <br>
+                          <%} %>
+                            
+                            <nav class="navbar bg-body-tertiary">
+                              <div class="container-fluid">
+                                <a class="navbar-brand registerLogin" href="/users/logout">Cerrar Sesión</a>
+                              </div>
+                            </nav>
+                        <% } %>
                       </div>
                     </div>
                   </div>

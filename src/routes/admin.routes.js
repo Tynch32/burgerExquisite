@@ -2,11 +2,12 @@
 var express = require('express');
 var router = express.Router();
 //Controller
-const { registeredUsers, searchUser, editTokenUser, addTokens,subtractTokens } = require('../controllers/adminController');
+const { registeredUsers, searchUser, editTokenUser, addTokens,subtractTokens, panelAdministrador } = require('../controllers/adminController');
 //Middlewares
 const adminCheck = require('../middlewares/adminCheck');
 
 //Vistas Admin
+router.get('/panelAdministrador', adminCheck, panelAdministrador);
 router.get('/registeredUsers', adminCheck, registeredUsers);
 router.get('/editTokenUser', adminCheck, editTokenUser);
 router.get('/searchUser', adminCheck, searchUser);
